@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memorias en Decoración</title>
+  <style>
+    /* Reset básico */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background-color: #fde8f0; color: #333; }
+    header, footer { background-color: #f9d6e0; text-align: center; padding: 20px; }
+    h1 { font-size: 2.5rem; color: #d45d79; }
+    h2 { color: #d45d79; margin-bottom: 10px; }
+    p { margin-bottom: 15px; line-height: 1.6; }
+
+    /* Hero Slider */
+    .slider { position: relative; width: 100%; height: 400px; overflow: hidden; }
+    .slide { position: absolute; top: 0; left: 50%; height: 100%; width: auto; transform: translateX(-50%); opacity: 0; transition: opacity 1s ease-in-out; }
+    .slide.active { opacity: 1; }
+
+    /* Sección Info Empresa */
+    .about { padding: 40px 20px; background-color: #fff; border-radius: 15px; margin: 40px 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    .about h2 { text-align: center; }
+    .about-content { max-width: 800px; margin: 0 auto; }
+
+    /* Servicios */
+    .services { padding: 40px 20px; }
+    .services .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .card { background-color: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.3s ease; cursor: pointer; }
+    .card img { width: 100%; height: 180px; object-fit: cover; object-position: center; }
+    .card h3 { padding: 15px; font-size: 1.2rem; color: #a83b5c; }
+    .card:hover { transform: scale(1.05); }
+
+    /* Modal */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+    .modal-content { background: #fff; padding: 20px; border-radius: 10px; max-width: 90%; max-height: 80%; overflow-y: auto; }
+    .close-btn { background: #d45d79; color: #fff; border: none; padding: 5px 10px; cursor: pointer; border-radius: 5px; float: right; }
+
+    /* Footer */
+    
+    footer p { color: #666; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Memorias en Decoración</h1>
+  </header>
+
+  <!-- Hero Slider -->
+  <section class="slider" id="hero-slider">
+    <img src="boda.png" class="slide active" alt="Boda elegante">
+    <img src="infantil.png" class="slide" alt="Fiesta infantil">
+    <img src="xv.png" class="slide" alt="Quinceañera">
+    <img src="corporativo.png" class="slide" alt="Eventos Corporativos">
+  </section>
+
+  <!-- Sobre la empresa -->
+  <section class="about">
+    <h2>Sobre Nosotros</h2>
+    <div class="about-content">
+      <p><strong>Memorias en Decoración</strong> es un emprendimiento salvadoreño especializado en diseño de experiencias decorativas personalizadas para eventos sociales y corporativos. Nos enfocamos en transformar bodas, fiestas infantiles, quinceañeras y eventos empresariales en momentos inolvidables, combinando artesanía tradicional con innovación tecnológica como proyecciones mapeadas y realidad aumentada.</p>
+      <p>Cada diseño cuenta una historia única, integrando elementos personalizados que reflejan la esencia de nuestros clientes. Desde arcos florales con flores preservadas hasta stands corporativos interactivos, nuestra propuesta de valor radica en fusionar sostenibilidad (materiales eco-amigables), autenticidad (co-creación con los clientes) y magia sensorial (luces, aromas y texturas), posicionándonos como creadores de memorias visuales, más que simples proveedores de decoración.</p>
+      <h3>Misión</h3>
+      <p>Transformar espacios en experiencias memorables a través de diseños decorativos únicos, donde cada detalle cuenta una historia y eleva momentos especiales a su máxima expresión.</p>
+      <h3>Visión</h3>
+      <p>Liderar el mercado de decoración de eventos con innovación y sensibilidad artística, siendo reconocidos por crear atmósferas que inspiran y trascienden, mientras expandimos nuestra huella creativa a nuevos mercados.</p>
+    </div>
+  </section>
+
+  <!-- Servicios -->
+  <section class="services">
+    <h2>Nuestros Servicios</h2>
+    <div class="cards">
+      <div class="card" data-service="bodas">
+        <img src="boda.png" alt="Bodas y Eventos Nupciales">
+        <h3>Bodas y Eventos Nupciales</h3>
+      </div>
+      <div class="card" data-service="infantiles">
+        <img src="infantil.png" alt="Fiestas Infantiles">
+        <h3>Fiestas Infantiles</h3>
+      </div>
+      <div class="card" data-service="quince">
+        <img src="xv.png" alt="Quinceañeras">
+        <h3>Quinceañeras</h3>
+      </div>
+      <div class="card" data-service="corporativos">
+        <img src="corporativo.png" alt="Eventos Corporativos">
+        <h3>Eventos Corporativos</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content" id="modal-content">
+      <button class="close-btn" id="close-btn">X</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Memorias en Decoración. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    // Slider automático
+    const slides = document.querySelectorAll('.slide');
+    let currentIndex = 0;
+    setInterval(() => {
+      slides[currentIndex].classList.remove('active');
+      currentIndex = (currentIndex + 1) % slides.length;
+      slides[currentIndex].classList.add('active');
+    }, 4000);
+
+    // Contenido de servicios
+    const serviceDetails = {
+      bodas: [
+        'Arcos florales (naturales o artificiales)',
+        'Centros de mesa (flores, velas, elementos temáticos)',
+        'Invitaciones y detalles de boda personalizados',
+        'Fotobooths temáticos',
+        'Señalización creativa',
+        'Alquiler de mobiliario vintage'
+      ],
+      infantiles: [
+        'Temáticas completas (unicornios, dinosaurios, espacio, frozen)',
+        'Globos de helio y guirnaldas',
+        'Backdrops fotográficos personalizados',
+        'Piñatas personalizadas',
+        'Kits de fiesta coordinados'
+      ],
+      quince: [
+        'Invitaciones premium (laser-cut, 3D)',
+        'Mobiliario de lujo (sillas ghost, sofás VIP)',
+        'Escenarios temáticos con luces LED',
+        'Centros de mesa personalizados',
+        'Recuerdos para invitados',
+        'Mesas de postres y candy bar',
+        'Iluminación y efectos especiales'
+      ],
+      corporativos: [
+        'Stands para ferias con branding',
+        'Decoración para inauguraciones',
+        'Detalles para regalos corporativos',
+        'Mesas de café temáticas'
+      ]
+    };
+
+    // Modal handlers
+    const modal = document.getElementById('modal');
+    const modalBody = document.getElementById('modal-body');
+    const closeBtn = document.getElementById('close-btn');
+
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        const key = card.getAttribute('data-service');
+        const items = serviceDetails[key] || [];
+        modalBody.innerHTML = `<h3>${card.querySelector('h3').innerText}</h3><ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
+        modal.style.display = 'flex';
+      });
+    });
+
+    closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+    modal.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+  </script>
+</body>
+</html>
